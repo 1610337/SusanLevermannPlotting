@@ -1,6 +1,9 @@
-import pandas as ps
+import pandas as pd
 import numpy as np
 import json
+import datetime
+import matplotlib.pyplot as plt
+
 
 f = open("msci.txt", "r")
 f = f.read()
@@ -20,5 +23,20 @@ dict_keys(['id', 'caption', 'benchmark_name', 'historicalData', 'historicalDataR
 # This is what i need
 print(y[0]["historicalData"][1])
 
-for val in y[0]["historicalData"]:
-    print(val)
+portfolio_vals = [val["portfolio_return"] for val in y[0]["historicalData"]]
+bench_vals = [val["benchmark_return"] for val in y[0]["historicalData"]]
+date_keys = [datetime.datetime(val["date_year"], val["date_month"], 1) for val in y[0]["historicalData"]]
+
+
+main_df = pd.DataFrame(
+    {'portfolio_vals': portfolio_vals,
+     'bench_vals': bench_vals,
+    }, index=date_keys)
+
+plt.plot(main_df["portfolio_vals"])
+plt.plot(main_df["bench_vals"])
+plt.ylabel('some numbers')
+plt.show()
+
+print(main_df)
+
