@@ -4,6 +4,10 @@ import json
 import datetime
 import matplotlib.pyplot as plt
 
+'''
+Hypothetical performance is not necessarily indicative of future results. No representation is being made that any action will achieve profits or losses similar to those displayed. The result may be overstated as neither transaction costs nor bid/ask spreads nor slippage have been considered. Output equally weighted with maximum 5% allocation per position and rebalanced monthly. Holdings are systematically replaced when the screening criteria are not met anymore. No additional buying or selling rules (technical analysis) have been employed.
+Due to lack of the full historical data set, this back-test only considers 11 of the 13 factors and therefore the result will deviate from a back-test using the complete data set. Moreover, only stocks with a score of >=5 were considered.
+'''
 
 f = open("msci.txt", "r")
 f = f.read()
@@ -50,7 +54,8 @@ print(len(main_df2))
 
 
 plt.plot(main_df["portfolio_vals"])
-plt.plot(main_df["bench_vals"])
+plt.plot((main_df["bench_vals"]))
+plt.plot((main_df["bench_vals"])*13)
 plt.ylabel('some numbers')
 plt.show()
 
