@@ -7,6 +7,11 @@ import matplotlib.pyplot as plt
 '''
 Hypothetical performance is not necessarily indicative of future results. No representation is being made that any action will achieve profits or losses similar to those displayed. The result may be overstated as neither transaction costs nor bid/ask spreads nor slippage have been considered. Output equally weighted with maximum 5% allocation per position and rebalanced monthly. Holdings are systematically replaced when the screening criteria are not met anymore. No additional buying or selling rules (technical analysis) have been employed.
 Due to lack of the full historical data set, this back-test only considers 11 of the 13 factors and therefore the result will deviate from a back-test using the complete data set. Moreover, only stocks with a score of >=5 were considered.
+
+Diest eine deutlich vereinfachte Darstellung getester Kursdaten!
+Die Daten aus msci.txt stammen von
+    https://meetinvest.com/stockscreener/susan-levermann
+
 '''
 
 f = open("msci.txt", "r")
@@ -41,6 +46,7 @@ main_df = pd.DataFrame(
      'bench_vals': bench_vals,
     }, index=date_keys)
 # TODO refactor and calc vola
+
 rel_DF = pd.DataFrame(
     {'portfolio_vals_rel' : portfolio_vals_rel,
     'bench_vals_rel': bench_vals_rel,
@@ -53,12 +59,20 @@ print(len(main_df))
 print(len(main_df2))
 
 
-plt.plot(main_df["portfolio_vals"])
-plt.plot((main_df["bench_vals"]))
-plt.plot((main_df["bench_vals"])*13)
-plt.ylabel('some numbers')
+plt.plot(main_df["portfolio_vals"], 'C1', label='Portfolio - Performance')
+#plt.plot((main_df["bench_vals"]), 'C2', label='MSCI World')
+plt.plot((main_df["bench_vals"])*13, 'C3', label='MSCI World x 13')
+plt.legend()
+
+
+plt.ylabel('Prozentuale Entwicklung')
+plt.xlabel('Jahre')
+
 plt.show()
 
 print(np.var(main_df2["portfolio_vals_rel"]))
 print(np.var(main_df2["bench_vals_rel"]))
 
+print(np.std(main_df2["portfolio_vals_rel"], ddof=1))
+print(np.std(main_df2["bench_vals_rel"], ddof=1))
+print(np.std(main_df2["bench_vals_rel"]*13, ddof=1))
